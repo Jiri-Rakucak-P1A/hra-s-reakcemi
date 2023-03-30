@@ -12,14 +12,24 @@ let center: number = 0
 
 let left: number = 0
 
+
+let block1 = false
+
 basic.forever(function () {
 
     center = pins.digitalReadPin(centerP)
     left = pins.digitalReadPin(leftP)
-
-    console.log(center)
-    console.log(left)
+    
+    input.onButtonPressed(Button.A, function() {
+        basic.showString("Start")
+        let cas = randint(1, 10000)
+        basic.pause(cas)
+        music.playTone(Note.C, music.beat(BeatFraction.Whole))
+        block1 = true
+        console.log(cas)
+    })
     
 
-	basic.pause(10)
+	
+    basic.pause(10)
 })
