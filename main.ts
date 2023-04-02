@@ -31,8 +31,6 @@ basic.forever(function () {
 
     player1 = pins.digitalReadPin(player1P)
     player2 = pins.digitalReadPin(player2P)
-    console.log(player1)
-    console.log(player2)
 
     
     input.onButtonPressed(Button.A, function() {
@@ -41,9 +39,14 @@ basic.forever(function () {
         basic.showString("Start")
         let cas = randint(1, 10000)
         basic.pause(cas)
-        music.playTone(Note.C, music.beat(BeatFraction.Whole))
+        control.inBackground(() => {
+            music.playTone(Note.C, music.beat(1.5))
+        })
+        basic.showIcon(IconNames.Duck)
+        falsestart = false
         start1 = input.runningTimeMicros()
         start2 = input.runningTimeMicros()
+        basic.clearScreen()
         
     })
 
@@ -61,21 +64,21 @@ basic.forever(function () {
     }
     if (end1 && end2 && time) {
         if (elapsed1 < elapsed2) {
-            basic.showString("P1 win")
+            basic.showString("1")
             basic.clearScreen()
             end1 = false
             end2 = false
             time = false
         }
         if (elapsed1 > elapsed2) {
-            basic.showString("P2 win")
+            basic.showString("2")
             basic.clearScreen()
             end1 = false
             end2 = false
             time = false
         }
         if (elapsed1 == elapsed2) {
-            basic.showString("draw")
+            basic.showString("R")
             basic.clearScreen()
             end1 = false
             end2 = false
@@ -84,8 +87,9 @@ basic.forever(function () {
     }
 
     if (falsestart && time) {
-        if (player1 == 0 || player2 == 0 ) {
-            basic.showString("Game over")
+        if (player1 === 0 && player2 === 0 ) {
+            basic.showString("C")
+            basic.clearScreen()
             time = false
             start1 = 0
             start2 = 0
@@ -95,6 +99,29 @@ basic.forever(function () {
             end2 = false
         }
 
+        if (player1 === 0) {
+            basic.showString("B")
+            basic.clearScreen()
+            time = false
+            start1 = 0
+            start2 = 0
+            elapsed1 = 0
+            elapsed2 = 0
+            end1 = false
+            end2 = false
+        }
+
+        if (player2 === 0) {
+            basic.showString("A")
+            basic.clearScreen()
+            time = false
+            start1 = 0
+            start2 = 0
+            elapsed1 = 0
+            elapsed2 = 0
+            end1 = false
+            end2 = false
+        }
     }
     basic.pause(10)
 })
